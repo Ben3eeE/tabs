@@ -265,8 +265,7 @@ class TabBarView extends HTMLElement
       false
 
   onDragLeave: (event) ->
-    @removePlaceholder()
-    @lastDropTargetIndex = null
+    @removePlaceholder() if event.target is event.currentTarget
 
   onDragEnd: (event) ->
     return unless matches(event.target, '.sortable')
