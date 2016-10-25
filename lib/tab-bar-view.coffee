@@ -221,6 +221,7 @@ class TabBarView extends HTMLElement
     (@paneContainer.getPanes().length > 1) or (@pane.getItems().length > 1)
 
   onDragStart: (event) ->
+    @lastDropTargetIndex = null
     return unless matches(event.target, '.sortable')
 
     event.dataTransfer.setData 'atom-event', 'true'
@@ -265,6 +266,7 @@ class TabBarView extends HTMLElement
 
   onDragLeave: (event) ->
     @removePlaceholder()
+    @lastDropTargetIndex = null
 
   onDragEnd: (event) ->
     return unless matches(event.target, '.sortable')
@@ -280,6 +282,8 @@ class TabBarView extends HTMLElement
     event.preventDefault()
     newDropTargetIndex = @getDropTargetIndex(event)
     return unless newDropTargetIndex?
+    return if @lastDropTargetIndex is newDropTargetIndex
+    @lastDropTargetIndex = newDropTargetIndex
 
     @removeDropTargetClasses()
 
